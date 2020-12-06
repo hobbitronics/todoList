@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <title>Javascript Todo List</title>
+	<meta charset="utf-8" />
+</head>
+<html>
+    <body>
+        todo: <input id="text" type="text" placeholder="enter todo">
+        <button id="add">add</button>
+        <div id="container">
+        </div>
+        <button id="del">delete todos</button>
+    </body>
+</html>
+    
+<script>
+    const add = document.getElementById("add");
+    add.addEventListener("click", () => {
+        const text = document.getElementById("text");
+        const container = document.getElementById("container");
+        const newTodo = document.createElement("div");
+        newTodo.innerHTML = `
+        <input type="checkbox">
+        <span>${text.value}</span>`;
+        container.appendChild(newTodo);
+        text.value = "";
+        const done = newTodo.querySelector("input");    //the checkbox
+        let toggle = true;
+        done.addEventListener("click", () => {
+            if (toggle) {
+                newTodo.querySelector("span").style = "text-decoration: line-through";
+                newTodo.id = "checked";
+                toggle = !toggle;
+            } else {
+                newTodo.querySelector("span").style = "";
+                newTodo.id = "";
+                toggle = !toggle;
+            }
+        });
+        const del = document.getElementById("del");
+        del.addEventListener("click", () => {
+            const checked = document.querySelector("#checked");
+            container.removeChild(checked);
+        });
+    });
+</script>
+
+<style>
+    button {
+        margin: .5em;
+        padding: 0 4px;
+    }
+</style>
