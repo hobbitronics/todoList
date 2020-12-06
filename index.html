@@ -15,8 +15,8 @@
             <div class="mdl-card__supporting-text">
                 todo: <input id="text" type="text" placeholder="enter todo">
                 <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
-                <div id="container">
-                </div>
+                <ul id="container">
+                </ul>
                 <button id="del" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">delete todos</button>
             </div>
             <div class="mdl-card__actions mdl-card--border">
@@ -36,17 +36,22 @@
     
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const add = document.getElementById("add");
+        const add = document.getElementById("add")
         add.addEventListener("click", () => {
-            const text = document.getElementById("text");
-            const container = document.getElementById("container");
-            const newTodo = document.createElement("div");
-            newTodo.innerHTML = `
-            <input type="checkbox" class="mdl-checkbox__input">
-            <span>${text.value}</span>`;
-            container.appendChild(newTodo);
-            text.value = "";
-            const done = newTodo.querySelector("input");    //the checkbox
+            const text = document.getElementById("text")
+            const container = document.getElementById("container")
+            const newTodo = document.createElement("li")
+            const done = document.createElement('input')
+            const todoLabel = document.createElement('span')
+            todoLabel.innerText = text.value
+            done.type = 'checkbox'
+            done.className = "mdl-checkbox__input"
+            componentHandler.upgradeElement(done)
+            newTodo.appendChild(done)
+            newTodo.appendChild(todoLabel)
+            container.appendChild(newTodo)
+            text.value = ""
+            // const done = newTodo.querySelector("input")    //the checkbox
             let toggle = true;
             done.addEventListener("click", () => {
                 if (toggle) {
@@ -58,14 +63,14 @@
                     newTodo.id = "";
                     toggle = !toggle;
                 }
-            });
+            })
             const del = document.getElementById("del");
             del.addEventListener("click", () => {
                 const checked = document.querySelector("#checked");
                 container.removeChild(checked);
-            });
-        });
-    });
+            })
+        })
+    })
 </script>
 
 <style>
