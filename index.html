@@ -15,7 +15,7 @@
             <div class="mdl-card__supporting-text">
                 todo: <input id="text" type="text" placeholder="enter todo">
                 <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
-                <ul id="container">
+                <ul id="container" class="demo-list-item mdl-list">
                 </ul>
                 <button id="del" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">delete todos</button>
             </div>
@@ -30,7 +30,6 @@
               </button>
             </div>
           </div>
-        
     </body>
 </html>
     
@@ -41,8 +40,11 @@
             const text = document.getElementById("text")
             const container = document.getElementById("container")
             const newTodo = document.createElement("li")
+            newTodo.className = "mdl-list__item"
             const done = document.createElement('input')
             const todoLabel = document.createElement('span')
+            todoLabel.className ="mdl-list__item-primary-content"
+            componentHandler.upgradeElement(todoLabel)
             todoLabel.innerText = text.value
             done.type = 'checkbox'
             done.className = "mdl-checkbox__input"
@@ -67,7 +69,11 @@
             const del = document.getElementById("del");
             del.addEventListener("click", () => {
                 const checked = document.querySelector("#checked");
-                container.removeChild(checked);
+                try {
+                    container.removeChild(checked);
+                } catch (error) {
+                    console.log("There were items not selected: " + error)
+                }
             })
         })
     })
