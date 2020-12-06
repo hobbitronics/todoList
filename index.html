@@ -3,7 +3,7 @@
     <title>Javascript Todo List</title>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <html>
@@ -42,7 +42,7 @@
             const container = document.getElementById("container");
             const newTodo = document.createElement("div");
             newTodo.innerHTML = `
-            <input type="checkbox">
+            <input type="checkbox" class="mdl-checkbox__input">
             <span>${text.value}</span>`;
             container.appendChild(newTodo);
             text.value = "";
