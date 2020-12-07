@@ -60,8 +60,10 @@
     
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        let i = 0
         const add = document.getElementById("add")
         add.addEventListener("click", () => {
+            i++
             const text = document.getElementById("text")
             const container = document.getElementById("container")
             const newTodo = document.createElement("li")
@@ -72,11 +74,13 @@
             newTodo.className = "mdl-list__item"
             todoContent.className = "mdl-list__item-primary-content"
             doneWrapWrap.className = "mdl-list__item-secondary-action"
-            doneWrap.className = "mdl-checkbox mdl-js-ripple-effect"
+            doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+            doneWrap.for = `list-checkbox-${i}`
             done.type = 'checkbox'
+            done.id = `list-checkbox-${i}`
             done.className = "mdl-checkbox__input"
             todoContent.innerText = text.value
-            // componentHandler.upgradeElement(doneWrap)
+            componentHandler.upgradeElement(doneWrap)
             componentHandler.upgradeElement(newTodo)
             componentHandler.upgradeElement(todoContent)
             componentHandler.upgradeElement(doneWrapWrap)
