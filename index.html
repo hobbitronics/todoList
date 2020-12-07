@@ -18,7 +18,7 @@
                 <ul id="container" class="demo-list-control mdl-list">
                     <li class="mdl-list__item">
                       <span id="content" class="mdl-list__item-primary-content">
-                        Bryan Cranston
+                        Shop
                       </span>
                       <span class="mdl-list__item-secondary-action">
                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" >
@@ -29,7 +29,7 @@
                    
                     <li class="mdl-list__item">
                       <span id="content" class="mdl-list__item-primary-content">
-                        Ryan Cranston
+                        take out trash
                       </span>
                       <span class="mdl-list__item-secondary-action">
                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" >
@@ -74,12 +74,13 @@
             }))
         }
         scanBoxes()
+        
         del.addEventListener("click", () => {
             const checked = document.querySelectorAll("#checked")
             checked.forEach(el => container.removeChild(el))
         })
-        
-        add.addEventListener("click", () => {
+
+        const addItem = () => () => {
             i++
             const text = document.getElementById("text")
             const newTodo = document.createElement("li")
@@ -109,7 +110,9 @@
             container.appendChild(newTodo)
             text.value = ""
             scanBoxes()
-        })
+        }
+        
+        add.addEventListener("click", addItem())
     })
 </script>
 
