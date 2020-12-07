@@ -58,10 +58,30 @@
     document.addEventListener('DOMContentLoaded', () => {
         let i = 0
         const add = document.getElementById("add")
+        const container = document.getElementById("container")
+        const del = document.getElementById("del")
+        const scanBoxes = () => {
+            let boxes = document.querySelectorAll("input.mdl-checkbox__input")
+            boxes.forEach(el => el.addEventListener("click", () => {
+                let ancestor = el.parentNode.parentNode.parentNode
+                if (el.checked === true) {
+                    ancestor.querySelector("span").style = "text-decoration: line-through";
+                    ancestor.id = "checked";
+                } else {
+                    ancestor.querySelector("span").style = "";
+                    ancestor.id = "";
+                }
+            }))
+        }
+        scanBoxes()
+        del.addEventListener("click", () => {
+            const checked = document.querySelectorAll("#checked")
+            checked.forEach(el => container.removeChild(el))
+        })
+        
         add.addEventListener("click", () => {
             i++
             const text = document.getElementById("text")
-            const container = document.getElementById("container")
             const newTodo = document.createElement("li")
             const todoContent = document.createElement('span')
             const doneWrapWrap = document.createElement('span')
@@ -88,27 +108,20 @@
             newTodo.appendChild(doneWrapWrap)
             container.appendChild(newTodo)
             text.value = ""
-            let toggle = true;
-            done.addEventListener("click", () => {
-                if (toggle) {
-                    newTodo.querySelector("#content").style = "text-decoration: line-through";
-                    newTodo.id = "checked";
-                    toggle = !toggle;
-                } else {
-                    newTodo.querySelector("span").style = "";
-                    newTodo.id = "";
-                    toggle = !toggle;
-                }
-            })
-            const del = document.getElementById("del");
-            del.addEventListener("click", () => {
-                const checked = document.getElementById("checked");
-                try {
-                    container.removeChild(checked);
-                } catch (error) {
-                    console.log("There were items not selected: " + error)
-                }
-            })
+            let toggle = true
+            scanBoxes()
+            // done.addEventListener("click", () => {
+            //     if (toggle) {
+            //         newTodo.querySelector("#content").style = "text-decoration: line-through";
+            //         newTodo.id = "checked";
+            //         toggle = !toggle;
+            //     } else {
+            //         newTodo.querySelector("span").style = "";
+            //         newTodo.id = "";
+            //         toggle = !toggle;
+            //     }
+            // })
+            
         })
     })
 </script>
