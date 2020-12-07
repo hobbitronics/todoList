@@ -15,9 +15,34 @@
             <div class="mdl-card__supporting-text">
                 todo: <input id="text" type="text" placeholder="enter todo">
                 <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
-                <ul id="container" class="demo-list-item mdl-list">
+                <ul id="container" class="demo-list-control mdl-list">
                 </ul>
                 <button id="del" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">delete todos</button>
+
+                <ul class="demo-list-control mdl-list">
+                    <li class="mdl-list__item">
+                      <span class="mdl-list__item-primary-content">
+                        Bryan Cranston
+                      </span>
+                      <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" >
+                          <input type="checkbox"  class="mdl-checkbox__input" />
+                        </label>
+                      </span>
+                    </li>
+                   
+                    <li class="mdl-list__item">
+                      <span class="mdl-list__item-primary-content">
+                        Ryan Cranston
+                      </span>
+                      <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" >
+                          <input type="checkbox"  class="mdl-checkbox__input" />
+                        </label>
+                      </span>
+                    </li>
+                    
+                  </ul>
             </div>
             <div class="mdl-card__actions mdl-card--border">
               <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -40,20 +65,28 @@
             const text = document.getElementById("text")
             const container = document.getElementById("container")
             const newTodo = document.createElement("li")
-            newTodo.className = "mdl-list__item"
+            const todoContent = document.createElement('span')
+            const doneWrapWrap = document.createElement('div')
+            const doneWrap = document.createElement('label')
             const done = document.createElement('input')
-            const todoLabel = document.createElement('span')
-            todoLabel.className ="mdl-list__item-primary-content"
-            componentHandler.upgradeElement(todoLabel)
-            todoLabel.innerText = text.value
+            newTodo.className = "mdl-list__item"
+            todoContent.className = "mdl-list__item-primary-content"
+            doneWrapWrap.className = "mdl-list__item-secondary-action"
+            doneWrap.className = "mdl-checkbox mdl-js-ripple-effect"
             done.type = 'checkbox'
             done.className = "mdl-checkbox__input"
+            todoContent.innerText = text.value
+            // componentHandler.upgradeElement(doneWrap)
+            componentHandler.upgradeElement(newTodo)
+            componentHandler.upgradeElement(todoContent)
+            componentHandler.upgradeElement(doneWrapWrap)
             componentHandler.upgradeElement(done)
-            newTodo.appendChild(done)
-            newTodo.appendChild(todoLabel)
+            doneWrap.appendChild(done)
+            doneWrapWrap.appendChild(doneWrap)
+            newTodo.appendChild(todoContent)
+            newTodo.appendChild(doneWrapWrap)
             container.appendChild(newTodo)
             text.value = ""
-            // const done = newTodo.querySelector("input")    //the checkbox
             let toggle = true;
             done.addEventListener("click", () => {
                 if (toggle) {
@@ -68,7 +101,7 @@
             })
             const del = document.getElementById("del");
             del.addEventListener("click", () => {
-                const checked = document.querySelector("#checked");
+                const checked = document.getElementById("checked");
                 try {
                     container.removeChild(checked);
                 } catch (error) {
@@ -104,5 +137,9 @@
 
     .centered {
         margin: auto;
+    }
+
+    .demo-list-control {
+        width: 300px;
     }
 </style>
