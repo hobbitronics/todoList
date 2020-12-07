@@ -58,6 +58,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         let i = 0
         const add = document.getElementById("add")
+        const text = document.getElementById("text")
         const container = document.getElementById("container")
         const del = document.getElementById("del")
         const scanBoxes = () => {
@@ -82,7 +83,6 @@
 
         const addItem = () => () => {
             i++
-            const text = document.getElementById("text")
             const newTodo = document.createElement("li")
             const todoContent = document.createElement('span')
             const doneWrapWrap = document.createElement('span')
@@ -113,6 +113,7 @@
         }
         
         add.addEventListener("click", addItem())
+        text.addEventListener("keydown", event => event.key === 'Enter' && addItem())
     })
 </script>
 
