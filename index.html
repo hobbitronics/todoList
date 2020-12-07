@@ -17,7 +17,7 @@
                 <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
                 <ul id="container" class="demo-list-control mdl-list">
                     <li class="mdl-list__item">
-                      <span class="mdl-list__item-primary-content">
+                      <span id="content" class="mdl-list__item-primary-content">
                         Bryan Cranston
                       </span>
                       <span class="mdl-list__item-secondary-action">
@@ -28,7 +28,7 @@
                     </li>
                    
                     <li class="mdl-list__item">
-                      <span class="mdl-list__item-primary-content">
+                      <span id="content" class="mdl-list__item-primary-content">
                         Ryan Cranston
                       </span>
                       <span class="mdl-list__item-secondary-action">
@@ -65,10 +65,10 @@
             boxes.forEach(el => el.addEventListener("click", () => {
                 let ancestor = el.parentNode.parentNode.parentNode
                 if (el.checked === true) {
-                    ancestor.querySelector("span").style = "text-decoration: line-through";
+                    ancestor.querySelector("#content").style = "text-decoration: line-through";
                     ancestor.id = "checked";
                 } else {
-                    ancestor.querySelector("span").style = "";
+                    ancestor.querySelector("#content").style = "";
                     ancestor.id = "";
                 }
             }))
