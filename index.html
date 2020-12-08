@@ -1,53 +1,150 @@
 <!DOCTYPE html>
 <head>
     <title>Javascript Todo List</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <html>
     <body>
-        todo: <input id="text" type="text" placeholder="enter todo">
-        <button id="add">add</button>
-        <div id="container">
-        </div>
-        <button id="del">delete todos</button>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp centered">
+            <div class="mdl-card__title">
+              <h2 class="mdl-card__title-text">Todo List</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                todo: <input id="text" type="text" placeholder="enter todo">
+                <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
+                <ul id="container" class="demo-list-control mdl-list">
+                    <li class="mdl-list__item">
+                      <span id="content" class="mdl-list__item-primary-content">
+                        Shop
+                      </span>
+                      <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-0">
+                          <input type="checkbox"  class="mdl-checkbox__input" id="list-checkbox-0"/>
+                        </label>
+                      </span>
+                    </li>
+                   
+                    <li class="mdl-list__item">
+                      <span id="content" class="mdl-list__item-primary-content">
+                        take out trash
+                      </span>
+                      <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-999">
+                          <input type="checkbox"  class="mdl-checkbox__input" id="list-checkbox-999"/>
+                        </label>
+                      </span>
+                    </li>
+                </ul>
+                <button id="del" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">delete todos</button>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Back to my projects
+              </a>
+            </div>
+            <div class="mdl-card__menu">
+              <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                <i class="material-icons">share</i>
+              </button>
+            </div>
+          </div>
     </body>
 </html>
     
 <script>
-    const add = document.getElementById("add");
-    add.addEventListener("click", () => {
-        const text = document.getElementById("text");
-        const container = document.getElementById("container");
-        const newTodo = document.createElement("div");
-        newTodo.innerHTML = `
-        <input type="checkbox">
-        <span>${text.value}</span>`;
-        container.appendChild(newTodo);
-        text.value = "";
-        const done = newTodo.querySelector("input");    //the checkbox
-        let toggle = true;
-        done.addEventListener("click", () => {
-            if (toggle) {
-                newTodo.querySelector("span").style = "text-decoration: line-through";
-                newTodo.id = "checked";
-                toggle = !toggle;
-            } else {
-                newTodo.querySelector("span").style = "";
-                newTodo.id = "";
-                toggle = !toggle;
-            }
-        });
-        const del = document.getElementById("del");
+    document.addEventListener('DOMContentLoaded', () => {
+        let i = 0
+        const add = document.getElementById("add")
+        const text = document.getElementById("text")
+        const container = document.getElementById("container")
+        const del = document.getElementById("del")
+        const scanBoxes = () => {
+            let boxes = document.querySelectorAll("input.mdl-checkbox__input")
+            boxes.forEach(el => el.addEventListener("click", () => {
+                let ancestor = el.parentNode.parentNode.parentNode
+                if (el.checked === true) {
+                    ancestor.querySelector("#content").style = "text-decoration: line-through";
+                    ancestor.id = "checked";
+                } else {
+                    ancestor.querySelector("#content").style = "";
+                    ancestor.id = "";
+                }
+            }))
+        }
+        scanBoxes()
+        
         del.addEventListener("click", () => {
-            const checked = document.querySelector("#checked");
-            container.removeChild(checked);
-        });
-    });
+            const checked = document.querySelectorAll("#checked")
+            checked.forEach(el => container.removeChild(el))
+        })
+
+        const addItem = () => () => {
+            i++
+            const newTodo = document.createElement("li")
+            const todoContent = document.createElement('span')
+            const doneWrapWrap = document.createElement('span')
+            const doneWrap = document.createElement('label')
+            const done = document.createElement('input')
+            newTodo.className = "mdl-list__item"
+            todoContent.className = "mdl-list__item-primary-content"
+            todoContent.id = "content"
+            doneWrapWrap.className = "mdl-list__item-secondary-action"
+            doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+            doneWrap.for = `list-checkbox-${i}`
+            done.type = 'checkbox'
+            done.id = `list-checkbox-${i}`
+            done.className = "mdl-checkbox__input"
+            todoContent.innerText = text.value
+            doneWrap.appendChild(done)
+            doneWrapWrap.appendChild(doneWrap)
+            newTodo.appendChild(todoContent)
+            newTodo.appendChild(doneWrapWrap)
+            componentHandler.upgradeElement(newTodo)
+            componentHandler.upgradeElement(todoContent)
+            componentHandler.upgradeElement(doneWrapWrap)
+            componentHandler.upgradeElement(doneWrap)
+            componentHandler.upgradeElement(done)
+            container.appendChild(newTodo)
+            text.value = ""
+            scanBoxes()
+        }
+        
+        add.addEventListener("click", addItem())
+        // text.addEventListener("keydown", event => event.key === 'Enter' && addItem())
+    })
 </script>
 
 <style>
-    button {
-        margin: .5em;
-        padding: 0 4px;
+    body .btn {
+        margin: 4px 8px;
+    }
+
+    .demo-card-wide.mdl-card {
+        width: 80%;
+    }
+    .demo-card-wide > .mdl-card__title {
+    color: #fff;
+    height: 176px;
+    background: url('https://getmdl.io/assets/demos/welcome_card.jpg') center / cover;
+    }
+    .demo-card-wide > .mdl-card__menu {
+    color: #fff;
+    }
+
+    body {
+    padding: 20px;
+    background: #fafafa;
+    position: relative;
+    }
+
+    .centered {
+        margin: auto;
+    }
+
+    .demo-list-control {
+        width: 300px;
     }
 </style>
