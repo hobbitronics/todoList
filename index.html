@@ -160,6 +160,7 @@
       container.appendChild(newTodo)
       text.value = ""
       scanBoxes()
+      todos.push({title: text})
     }
     
     add.addEventListener("click", addItem)
