@@ -63,10 +63,11 @@
   let todos = []
   const getTodos = async () => {
     response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
-    todos = await response.JSON
-    console.log("todos: " + todos)
+    todos = await response.json()
+    console.log("todos: " + todos[1].id)
   }
   getTodos()
+  
   document.addEventListener('DOMContentLoaded', () => {
     let i = 0
     const add = document.getElementById("add")
