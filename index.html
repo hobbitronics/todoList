@@ -16,6 +16,7 @@
       <div class="mdl-card__supporting-text">
         todo: <input id="text" type="text" placeholder="enter todo">
         <button id="add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn">add</button>
+
         <ul id="container" class="demo-list-control mdl-list">
           <li class="mdl-list__item">
             <span id="content" class="mdl-list__item-primary-content">
@@ -60,35 +61,35 @@
 </html>
     
 <script>
-  let todos = []
-  const getTodos = async () => {
-    response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
-    todos = await response.json()
-    console.log("todos: " + todos[1].id)
-  }
-  getTodos()
-  
   document.addEventListener('DOMContentLoaded', () => {
+    let todos = []
     let i = 0
     const add = document.getElementById("add")
     const text = document.getElementById("text")
     const container = document.getElementById("container")
     const del = document.getElementById("del")
 
-    const renderTodos = todo => {
+    const scanBoxes = () => {
+      let boxes = document.querySelectorAll("input.mdl-checkbox__input")
+      boxes.forEach(el => el.addEventListener("click", () => {
+        let ancestor = el.parentNode.parentNode.parentNode
+        if (el.checked === true) {
+          ancestor.querySelector("#content").style = "text-decoration: line-through";
+          ancestor.id = "checked";
+        } else {
+          ancestor.querySelector("#content").style = "";
+          ancestor.id = "";
+        }
+      }))
+    }
+
+    const renderApiTodos = todo => {
       const newTodo = document.createElement("li")
       const todoContent = document.createElement('span')
       const doneWrapWrap = document.createElement('span')
       const doneWrap = document.createElement('label')
       const done = document.createElement('input')
       newTodo.className = "mdl-list__item"
-      if (todo.completed) {
-        newTodo.id = "checked"
-        newTodo.querySelector("#content").style = "text-decoration: line-through"
-      } else {
-        newTodo.id = ''
-        newTodo.querySelector("#content").style = ""
-      }
       todoContent.className = "mdl-list__item-primary-content"
       todoContent.id = "content"
       doneWrapWrap.className = "mdl-list__item-secondary-action"
@@ -107,26 +108,24 @@
       componentHandler.upgradeElement(doneWrapWrap)
       componentHandler.upgradeElement(doneWrap)
       componentHandler.upgradeElement(done)
+      if (todo.completed) {
+        newTodo.id = "checked"
+        newTodo.querySelector("#content").style = "text-decoration: line-through"
+      } else {
+        newTodo.id = ''
+        newTodo.querySelector("#content").style = ""
+      }
       container.appendChild(newTodo)
+      scanBoxes()
     }
 
-    todos.forEach(el => renderTodos(el))
-    
-    const scanBoxes = () => {
-      let boxes = document.querySelectorAll("input.mdl-checkbox__input")
-      boxes.forEach(el => el.addEventListener("click", () => {
-        let ancestor = el.parentNode.parentNode.parentNode
-        if (el.checked === true) {
-          ancestor.querySelector("#content").style = "text-decoration: line-through";
-          ancestor.id = "checked";
-        } else {
-          ancestor.querySelector("#content").style = "";
-          ancestor.id = "";
-        }
-      }))
+    const getTodos = async () => {
+      response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
+      todos = await response.json()
+      todos.forEach(todo => renderApiTodos(todo))
     }
-    scanBoxes()
-    
+    getTodos()
+        
     del.addEventListener("click", () => {
       const checked = document.querySelectorAll("#checked")
       checked.forEach(el => container.removeChild(el))
@@ -196,6 +195,6 @@
     }
 
     .demo-list-control {
-        width: 300px;
+        width: 350px;
     }
 </style>
