@@ -61,11 +61,12 @@
     
 <script>
   let todos = []
-  fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
-  .then( response => response.json() )
-  .then( data => {todos = data; console.log(todos)})
-  .catch(err => console.log(err))
-  
+  const getTodos = async () => {
+    response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
+    todos = await response.JSON
+    console.log("todos: " + todos)
+  }
+  getTodos()
   document.addEventListener('DOMContentLoaded', () => {
     let i = 0
     const add = document.getElementById("add")
