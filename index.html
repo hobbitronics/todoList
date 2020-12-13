@@ -72,6 +72,44 @@
     const text = document.getElementById("text")
     const container = document.getElementById("container")
     const del = document.getElementById("del")
+
+    const renderTodos = todo => {
+      const newTodo = document.createElement("li")
+      const todoContent = document.createElement('span')
+      const doneWrapWrap = document.createElement('span')
+      const doneWrap = document.createElement('label')
+      const done = document.createElement('input')
+      newTodo.className = "mdl-list__item"
+      if (todo.completed) {
+        newTodo.id = "checked"
+        newTodo.querySelector("#content").style = "text-decoration: line-through"
+      } else {
+        newTodo.id = ''
+        newTodo.querySelector("#content").style = ""
+      }
+      todoContent.className = "mdl-list__item-primary-content"
+      todoContent.id = "content"
+      doneWrapWrap.className = "mdl-list__item-secondary-action"
+      doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+      doneWrap.for = `list-checkbox-${todo.id}`
+      done.type = 'checkbox'
+      done.id = `list-checkbox-${todo.id}`
+      done.className = "mdl-checkbox__input"
+      todoContent.innerText = todo.title
+      doneWrap.appendChild(done)
+      doneWrapWrap.appendChild(doneWrap)
+      newTodo.appendChild(todoContent)
+      newTodo.appendChild(doneWrapWrap)
+      componentHandler.upgradeElement(newTodo)
+      componentHandler.upgradeElement(todoContent)
+      componentHandler.upgradeElement(doneWrapWrap)
+      componentHandler.upgradeElement(doneWrap)
+      componentHandler.upgradeElement(done)
+      container.appendChild(newTodo)
+    }
+
+    todos.forEach(el => renderTodos(el))
+    
     const scanBoxes = () => {
       let boxes = document.querySelectorAll("input.mdl-checkbox__input")
       boxes.forEach(el => el.addEventListener("click", () => {
