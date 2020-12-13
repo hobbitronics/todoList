@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script src="main.js"></script>
 </head>
 <html>
   <body>
@@ -59,114 +60,6 @@
     </div>
   </body>
 </html>
-    
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    let todos = []
-    let i = 0
-    const add = document.getElementById("add")
-    const text = document.getElementById("text")
-    const container = document.getElementById("container")
-    const del = document.getElementById("del")
-
-    const scanBoxes = () => {
-      let boxes = document.querySelectorAll("input.mdl-checkbox__input")
-      boxes.forEach(el => el.addEventListener("click", () => {
-        let ancestor = el.parentNode.parentNode.parentNode
-        if (el.checked === true) {
-          ancestor.querySelector("#content").style = "text-decoration: line-through";
-          ancestor.id = "checked";
-        } else {
-          ancestor.querySelector("#content").style = "";
-          ancestor.id = "";
-        }
-      }))
-    }
-
-    const renderApiTodos = todo => {
-      const newTodo = document.createElement("li")
-      const todoContent = document.createElement('span')
-      const doneWrapWrap = document.createElement('span')
-      const doneWrap = document.createElement('label')
-      const done = document.createElement('input')
-      newTodo.className = "mdl-list__item"
-      todoContent.className = "mdl-list__item-primary-content"
-      todoContent.id = "content"
-      doneWrapWrap.className = "mdl-list__item-secondary-action"
-      doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
-      doneWrap.for = `list-checkbox-${todo.id}`
-      done.type = 'checkbox'
-      done.id = `list-checkbox-${todo.id}`
-      done.className = "mdl-checkbox__input"
-      todoContent.innerText = todo.title
-      doneWrap.appendChild(done)
-      doneWrapWrap.appendChild(doneWrap)
-      newTodo.appendChild(todoContent)
-      newTodo.appendChild(doneWrapWrap)
-      componentHandler.upgradeElement(newTodo)
-      componentHandler.upgradeElement(todoContent)
-      componentHandler.upgradeElement(doneWrapWrap)
-      componentHandler.upgradeElement(doneWrap)
-      componentHandler.upgradeElement(done)
-      if (todo.completed) {
-        newTodo.id = "checked"
-        newTodo.querySelector("#content").style = "text-decoration: line-through"
-      } else {
-        newTodo.id = ''
-        newTodo.querySelector("#content").style = ""
-      }
-      container.appendChild(newTodo)
-      scanBoxes()
-    }
-
-    const getTodos = async () => {
-      response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
-      todos = await response.json()
-      todos.forEach(todo => renderApiTodos(todo))
-    }
-    getTodos()
-        
-    del.addEventListener("click", () => {
-      const checked = document.querySelectorAll("#checked")
-      checked.forEach(el => container.removeChild(el))
-    })
-
-    const addItem = () => {
-      i++
-      const newTodo = document.createElement("li")
-      const todoContent = document.createElement('span')
-      const doneWrapWrap = document.createElement('span')
-      const doneWrap = document.createElement('label')
-      const done = document.createElement('input')
-      newTodo.className = "mdl-list__item"
-      todoContent.className = "mdl-list__item-primary-content"
-      todoContent.id = "content"
-      doneWrapWrap.className = "mdl-list__item-secondary-action"
-      doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
-      doneWrap.for = `list-checkbox-${i}`
-      done.type = 'checkbox'
-      done.id = `list-checkbox-${i}`
-      done.className = "mdl-checkbox__input"
-      todoContent.innerText = text.value
-      doneWrap.appendChild(done)
-      doneWrapWrap.appendChild(doneWrap)
-      newTodo.appendChild(todoContent)
-      newTodo.appendChild(doneWrapWrap)
-      componentHandler.upgradeElement(newTodo)
-      componentHandler.upgradeElement(todoContent)
-      componentHandler.upgradeElement(doneWrapWrap)
-      componentHandler.upgradeElement(doneWrap)
-      componentHandler.upgradeElement(done)
-      container.appendChild(newTodo)
-      text.value = ""
-      scanBoxes()
-      todos.push({title: text})
-    }
-    
-    add.addEventListener("click", addItem)
-    text.addEventListener("keydown", event => event.key === 'Enter' && addItem())
-  })
-</script>
 
 <style>
     body .btn {
