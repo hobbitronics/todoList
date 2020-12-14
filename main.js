@@ -6,17 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const del = document.getElementById("del")
 
     const scanBoxes = () => {
-        let boxes = document.querySelectorAll("input.mdl-checkbox__input")
+        const boxes = document.querySelectorAll("input.mdl-checkbox__input")
         boxes.forEach(box => box.addEventListener("click", () => {
-            let ancestor = box.parentNode.parentNode.parentNode
+            const ancestor = box.parentNode.parentNode.parentNode
+            const index = 1 + todos.findIndex(todo => todo.id == box.id)
             if (box.checked === true) {
                 ancestor.querySelector("#content").style = "text-decoration: line-through"
                 ancestor.id = "checked"
-                todos[box.id-1].completed = true
+                console.log("todos:" + todos[box.id-1].id + " box: " + box.id + " index: " + index)
+                todos[index].completed = true
             } else {
                 ancestor.querySelector("#content").style = ""
                 ancestor.id = ""
-                todos[box.id-1].completed = false
+                todos[index].completed = false
             }
         }))
     }
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
         doneWrap.for = todo.id
         done.type = 'checkbox'
+        console.log("todo.id: " + todo.id)
         done.id = todo.id
         done.className = "mdl-checkbox__input"
         todoContent.innerText = todo.title
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('http://jsonplaceholder.typicode.com/todos', {
             method: 'POST',
             body: JSON.stringify({
-                userId : 1,
+                userId : 11,
                 title,
                 completed,
             }),
