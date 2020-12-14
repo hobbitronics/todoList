@@ -100,5 +100,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     add.addEventListener("click", () => addItem(text.value, false))
-    text.addEventListener("keydown", event => event.key === 'Enter' && addItem(text, false))
+    text.addEventListener("keydown", event => event.key === 'Enter' && addItem(text.value, false))
 })
