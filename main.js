@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById("container")
     const del = document.getElementById("del")
 
-    const scanBoxes = () => {
+    const watchBoxes = () => {
         const boxes = document.querySelectorAll("input.mdl-checkbox__input")
         boxes.forEach(box => box.addEventListener("click", () => {
             const ancestor = box.parentNode.parentNode.parentNode
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }))
     }
 
-    const renderApiTodos = todo => {
+    const renderTodos = todo => {
         const newTodo = document.createElement("li")
         const todoContent = document.createElement('span')
         const doneWrapWrap = document.createElement('span')
@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         componentHandler.upgradeElement(doneWrap)
         componentHandler.upgradeElement(done)
         container.appendChild(newTodo)
-        scanBoxes()
+        watchBoxes()
     }
 
     const getTodos = async () => {
         response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
         todos = await response.json()
-        todos.forEach(todo => renderApiTodos(todo))
+        todos.forEach(todo => renderTodos(todo))
     }
     getTodos()
         
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then((response) => response.json())
         .then((json) => {
-            renderApiTodos(json)
+            renderTodos(json)
             todos.push(json)
         })
         text.value = ''
