@@ -37,25 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
         doneWrap.for = todo.id
         done.type = 'checkbox'
         done.id = todo.id
-        if (todo.completed) done.checked = true
         done.className = "mdl-checkbox__input"
         todoContent.innerText = todo.title
         doneWrap.appendChild(done)
         doneWrapWrap.appendChild(doneWrap)
         newTodo.appendChild(todoContent)
         newTodo.appendChild(doneWrapWrap)
-        componentHandler.upgradeElement(newTodo)
-        componentHandler.upgradeElement(todoContent)
-        componentHandler.upgradeElement(doneWrapWrap)
-        componentHandler.upgradeElement(doneWrap)
-        componentHandler.upgradeElement(done)
         if (todo.completed) {
+            done.checked = true
             newTodo.id = "checked"
             newTodo.querySelector("#content").style = "text-decoration: line-through"
         } else {
             newTodo.id = ''
             newTodo.querySelector("#content").style = ""
         }
+        componentHandler.upgradeElement(newTodo)
+        componentHandler.upgradeElement(todoContent)
+        componentHandler.upgradeElement(doneWrapWrap)
+        componentHandler.upgradeElement(doneWrap)
+        componentHandler.upgradeElement(done)
         container.appendChild(newTodo)
         scanBoxes()
     }
