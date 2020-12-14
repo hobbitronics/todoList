@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const boxes = document.querySelectorAll("input.mdl-checkbox__input")
         boxes.forEach(box => box.addEventListener("click", () => {
             const ancestor = box.parentNode.parentNode.parentNode
-            const index = 1 + todos.findIndex(todo => todo.id == box.id)
+            const index =  todos.findIndex(todo => todo.id == box.id)
             if (box.checked === true) {
                 ancestor.querySelector("#content").style = "text-decoration: line-through"
                 ancestor.id = "checked"
-                console.log("todos:" + todos[box.id-1].id + " box: " + box.id + " index: " + index)
+                console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
                 todos[index].completed = true
             } else {
                 ancestor.querySelector("#content").style = ""
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
         doneWrap.for = todo.id
         done.type = 'checkbox'
-        console.log("todo.id: " + todo.id)
         done.id = todo.id
+        if (todo.completed) done.checked = true
         done.className = "mdl-checkbox__input"
         todoContent.innerText = todo.title
         doneWrap.appendChild(done)
