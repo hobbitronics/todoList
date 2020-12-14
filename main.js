@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const scanBoxes = () => {
         let boxes = document.querySelectorAll("input.mdl-checkbox__input")
-        boxes.forEach(el => el.addEventListener("click", () => {
-            let ancestor = el.parentNode.parentNode.parentNode
-            if (el.checked === true) {
+        boxes.forEach(box => box.addEventListener("click", () => {
+            let ancestor = box.parentNode.parentNode.parentNode
+            if (box.checked === true) {
                 ancestor.querySelector("#content").style = "text-decoration: line-through"
                 ancestor.id = "checked"
-                todos[el.id-1].completed = true
+                todos[box.id-1].completed = true
             } else {
                 ancestor.querySelector("#content").style = ""
                 ancestor.id = ""
-                todos[el.id-1].completed = false
+                todos[box.id-1].completed = false
             }
         }))
     }
