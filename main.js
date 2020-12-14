@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el.checked === true) {
                 ancestor.querySelector("#content").style = "text-decoration: line-through"
                 ancestor.id = "checked"
-                // todos[].completed = true
+                todos[el.id-1].completed = true
             } else {
                 ancestor.querySelector("#content").style = ""
                 ancestor.id = ""
-                // todos[].completed = false
+                todos[el.id-1].completed = false
             }
         }))
     }
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
         todoContent.id = "content"
         doneWrapWrap.className = "mdl-list__item-secondary-action"
         doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
-        doneWrap.for = `list-checkbox-${todo.id}`
+        doneWrap.for = todo.id
         done.type = 'checkbox'
-        done.id = `list-checkbox-${todo.id}`
+        done.id = todo.id
         done.className = "mdl-checkbox__input"
         todoContent.innerText = todo.title
         doneWrap.appendChild(done)
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const getTodos = async () => {
-        response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=2')
+        response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
         todos = await response.json()
         todos.forEach(todo => renderApiTodos(todo))
     }
@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     del.addEventListener("click", () => {
         const checked = document.querySelectorAll("#checked")
         checked.forEach(el => container.removeChild(el))
+        todos.forEach(todo => {
+            if (todo.completed === false) {
+                fetch(`http://jsonplaceholder.typicode.com/todos/${todo.id}`, {
+                    method: 'DELETE',
+                })
+            }
+        })
     })
 
     const addItem = (title, completed) => {
