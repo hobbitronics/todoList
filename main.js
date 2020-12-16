@@ -5,26 +5,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById("container")
     const del = document.getElementById("del")
 
+    const todoCompleted = todo => {
+        todo.querySelector("#content").style = "text-decoration: line-through"
+        todo.id = "checked"
+        return todo
+    }
+
+    const todoMarkedIncomlplete = todo => {
+        todo.querySelector("#content").style = ""
+        todo.id = ""
+        return todo
+    }
+
     const watchBoxes = () => {
         const boxes = document.querySelectorAll("input.mdl-checkbox__input")
         boxes.forEach(box => box.addEventListener("click", () => {
-            const ancestor = box.parentNode.parentNode.parentNode
+            let ancestor = box.parentNode.parentNode.parentNode
             const index =  todos.findIndex(todo => todo.id == box.id)
             if (box.checked === true) {
-                ancestor.querySelector("#content").style = "text-decoration: line-through"
-                ancestor.id = "checked"
-                console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
+                ancestor = todoCompleted(ancestor)
                 todos[index].completed = true
+                console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
             } else {
-                ancestor.querySelector("#content").style = ""
-                ancestor.id = ""
+                ancestor = todoMarkedIncomlplete(ancestor)
+                // ancestor.querySelector("#content").style = ""
+                // ancestor.id = ""
                 todos[index].completed = false
             }
         }))
     }
 
     const renderTodos = todo => {
-        const newTodo = document.createElement("li")
+        let newTodo = document.createElement("li")
         const todoContent = document.createElement('span')
         const doneWrapWrap = document.createElement('span')
         const doneWrap = document.createElement('label')
@@ -45,11 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
         newTodo.appendChild(doneWrapWrap)
         if (todo.completed) {
             done.checked = true
-            newTodo.id = "checked"
-            newTodo.querySelector("#content").style = "text-decoration: line-through"
+            newTodo = todoCompleted(newTodo)
         } else {
-            newTodo.id = ''
-            newTodo.querySelector("#content").style = ""
+            newTodo = todoMarkedIncomlplete(newTodo)
         }
         componentHandler.upgradeElement(newTodo)
         componentHandler.upgradeElement(todoContent)
