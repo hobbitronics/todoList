@@ -17,6 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return todo
     }
 
+    const updateTodo = (id, completed) => {
+        fetch(`http://jsonplaceholder.typicode.com/todos/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                completed,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    }
+
     const watchBoxes = () => {
         const boxes = document.querySelectorAll("input.mdl-checkbox__input")
         boxes.forEach(box => box.addEventListener("click", () => {
@@ -30,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ancestor = todoMarkedIncomlplete(ancestor)
                 todos[index].completed = false
             }
+            updateTodo(todos[index].id, box.checked)
         }))
     }
 
