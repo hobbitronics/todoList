@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
             } else {
                 ancestor = todoMarkedIncomlplete(ancestor)
-                // ancestor.querySelector("#content").style = ""
-                // ancestor.id = ""
                 todos[index].completed = false
             }
         }))
