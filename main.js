@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const getTodos = async () => {
-        response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
+        const response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
         todos = await response.json()
         todos.forEach(todo => renderTodos(todo))
     }
