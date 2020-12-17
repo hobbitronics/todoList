@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     getTodos()
         
     delBtn.addEventListener("click", () => {
-        const checked = document.querySelectorAll("#checked")
-        checked.forEach(el => container.removeChild(el))
+        const checkedBoxes = document.querySelectorAll("#checked")
+        checkedBoxes.forEach(checkedBox => container.removeChild(checkedBox))
         todos.forEach(todo => {
             if (todo.completed === true) {
                 fetch(`http://jsonplaceholder.typicode.com/todos/${todo.id}`, {
