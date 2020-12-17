@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const watchBox = box => box.addEventListener("click", () => {
-        let ancestor = box.parentNode.parentNode.parentNode
-        const index =  todos.findIndex(todo => todo.id == box.id)
+    const watchBox = (box, ancestor) => box.addEventListener("click", () => {
+        // let ancestor = box.parentNode.parentNode.parentNode
+        const index = todos.findIndex(todo => todo.id == box.id)
         if (box.checked === true) {
             ancestor = todoCompleted(ancestor)
             todos[index].completed = true
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         componentHandler.upgradeElement(doneWrap)
         componentHandler.upgradeElement(done)
         container.appendChild(newTodo)
-        watchBox(done)
+        watchBox(done, newTodo)
     }
 
     const getTodos = async () => {
