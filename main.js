@@ -17,36 +17,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return todo
     }
 
-    const updateTodo = (id, completed) => {
-        fetch(`http://jsonplaceholder.typicode.com/todos/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                completed,
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-            })
-            .then((response) => response.json())
-            .then((json) => console.log(json));
+    const updateTodo = async (id, completed) => {
+        try {
+            const response = await fetch(`http://jsonplaceholder.typicode.com/todos/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        completed
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                })
+                const data = await response.json()
+                // console.log(data)
+        } catch (e) {
+            console.log(Error(`this is not a real API so the id ${id} doesn't exist on the todo you created. ` + e))
+        }
     }
 
-    const watchBoxes = () => {
-        const boxes = document.querySelectorAll("input.mdl-checkbox__input")
-        boxes.forEach(box => box.addEventListener("click", () => {
-            let ancestor = box.parentNode.parentNode.parentNode
-            const index =  todos.findIndex(todo => todo.id == box.id)
-            if (box.checked === true) {
-                ancestor = todoCompleted(ancestor)
-                todos[index].completed = true
-                console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
-            } else {
-                ancestor = todoMarkedIncomlplete(ancestor)
-                todos[index].completed = false
-            }
-            updateTodo(todos[index].id, box.checked)
-        }))
-    }
+    const watchBox = box => box.addEventListener("click", () => {
+        let ancestor = box.parentNode.parentNode.parentNode
+        const index =  todos.findIndex(todo => todo.id == box.id)
+        if (box.checked === true) {
+            ancestor = todoCompleted(ancestor)
+            todos[index].completed = true
+            console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
+        } else {
+            ancestor = todoMarkedIncomlplete(ancestor)
+            todos[index].completed = false
+        }
+        updateTodo(todos[index].id, box.checked)
+    })
+
+    // const watchBoxes = () => {
+    //     const boxes = document.querySelectorAll("input.mdl-checkbox__input")
+    //     boxes.forEach(box => watchBox(box))
+    // }
 
     const renderTodos = todo => {
         let newTodo = document.createElement("li")
@@ -80,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         componentHandler.upgradeElement(doneWrap)
         componentHandler.upgradeElement(done)
         container.appendChild(newTodo)
-        watchBoxes()
+        watchBox(done)
     }
 
     const getTodos = async () => {
@@ -102,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 
-    const addItem = (title, completed) => {
+    const addTodo = (title, completed) => {
         fetch('http://jsonplaceholder.typicode.com/todos', {
             method: 'POST',
             body: JSON.stringify({
@@ -122,6 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         text.value = ''
     }
     
-    add.addEventListener("click", () => addItem(text.value, false))
-    text.addEventListener("keydown", event => event.key === 'Enter' && addItem(text.value, false))
+    add.addEventListener("click", () => addTodo(text.value, false))
+    text.addEventListener("keydown", event => event.key === 'Enter' && addTodo(text.value, false))
 })
