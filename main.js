@@ -84,10 +84,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const getTodos = async () => {
-        const response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
-        todos = await response.json()
-        todos.forEach(todo => renderTodos(todo))
+        try {
+            const response = await fetch('http://jsonplaceholder.typicode.com/todos?_limit=5')
+            todos = await response.json()
+            todos.forEach(todo => renderTodos(todo))
+        } catch (e) {
+            console.log('The API may be down: ' + e)
+        }
     }
+
     getTodos()
         
     delBtn.addEventListener("click", () => {
@@ -95,9 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
         checkedBoxes.forEach(checkedBox => container.removeChild(checkedBox))
         todos.forEach(todo => {
             if (todo.completed === true) {
-                fetch(`http://jsonplaceholder.typicode.com/todos/${todo.id}`, {
-                    method: 'DELETE',
-                })
+                try {
+                    fetch(`http://jsonplaceholder.typicode.com/todos/${todo.id}`, {
+                        method: 'DELETE',
+                    })
+                } catch(e) {console.log(e)}
             }
         })
     })
