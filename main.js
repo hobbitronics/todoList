@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     let todos = []
-    const add = document.getElementById("add")
+    const addBtn = document.getElementById("add")
     const text = document.getElementById("text")
     const container = document.getElementById("container")
-    const del = document.getElementById("del")
+    const delBtn = document.getElementById("del")
 
     const todoCompleted = todo => {
         todo.querySelector("#content").style = "text-decoration: line-through"
@@ -49,11 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTodo(todos[index].id, box.checked)
     })
 
-    // const watchBoxes = () => {
-    //     const boxes = document.querySelectorAll("input.mdl-checkbox__input")
-    //     boxes.forEach(box => watchBox(box))
-    // }
-
     const renderTodos = todo => {
         let newTodo = document.createElement("li")
         const todoContent = document.createElement('span')
@@ -96,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     getTodos()
         
-    del.addEventListener("click", () => {
+    delBtn.addEventListener("click", () => {
         const checked = document.querySelectorAll("#checked")
         checked.forEach(el => container.removeChild(el))
         todos.forEach(todo => {
@@ -128,6 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         text.value = ''
     }
     
-    add.addEventListener("click", () => addTodo(text.value, false))
+    addBtn.addEventListener("click", () => addTodo(text.value, false))
     text.addEventListener("keydown", event => event.key === 'Enter' && addTodo(text.value, false))
 })
