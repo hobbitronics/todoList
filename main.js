@@ -5,16 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById("container")
     const delBtn = document.getElementById("del")
 
-    const todoCompleted = todo => {
-        todo.querySelector("#content").style = "text-decoration: line-through"
-        todo.id = "checked"
-        return todo
+    const todoCompleted = newTodo => {
+        newTodo.querySelector("#content").style = "text-decoration: line-through"
+        newTodo.id = "checked"
+        return newTodo
     }
 
-    const todoMarkedIncomlplete = todo => {
-        todo.querySelector("#content").style = ""
-        todo.id = ""
-        return todo
+    const todoMarkedIncomlplete = NewTodo => {
+        NewTodo.querySelector("#content").style = ""
+        NewTodo.id = ""
+        return NewTodo
     }
 
     const updateTodo = async (id, completed) => {
@@ -35,15 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const watchBox = (box, ancestor) => box.addEventListener("click", () => {
-        // let ancestor = box.parentNode.parentNode.parentNode
+    const watchBox = (box, newTodo) => box.addEventListener("click", () => {
         const index = todos.findIndex(todo => todo.id == box.id)
         if (box.checked === true) {
-            ancestor = todoCompleted(ancestor)
+            newTodo = todoCompleted(newTodo)
             todos[index].completed = true
             console.log("todos.id:" + todos[index].id + " boxid: " + box.id + " index: " + index)
         } else {
-            ancestor = todoMarkedIncomlplete(ancestor)
+            newTodo = todoMarkedIncomlplete(newTodo)
             todos[index].completed = false
         }
         updateTodo(todos[index].id, box.checked)
