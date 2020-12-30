@@ -17,15 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return newTodo;
   };
 
-  const updateTodo = async (id, completed) => {
+  const updateTodo = async (todo) => {
     try {
       const response = await fetch(
-        `http://jsonplaceholder.typicode.com/todos/${id}`,
+        `http://jsonplaceholder.typicode.com/todos/${todo.id}`,
         {
           method: "PUT",
-          body: JSON.stringify({
-            completed,
-          }),
+          body: JSON.stringify(todo),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
@@ -36,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {
       console.log(
         Error(
-          `this is not a real API so the id ${id} doesn't exist on the todo you created. ` +
+          `this is not a real API so the id ${todo.id} doesn't exist on the todo you created. ` +
             e
         )
       );
@@ -56,12 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
             box.id +
             " index: " +
             index
-        );
+        )
       } else {
         newTodo = todoMarkedIncomlplete(newTodo);
         todos[index].completed = false;
       }
-      updateTodo(todos[index].id, box.checked);
+      updateTodo(todos[index])
     });
 
   const renderTodos = (todo) => {
