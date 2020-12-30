@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const addTodo = async (title, completed) => {
+  const addTodo = async title => {
     const newTodo = {
       id: Math.floor(Math.random()*1000),
       title,
-      completed,
+      completed: false
     }
     const response = await fetch("http://jsonplaceholder.typicode.com/todos/", {
       method: "POST",
@@ -147,9 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
     text.value = "";
   }
 
-  addBtn.addEventListener("click", () => addTodo(text.value, false));
+  addBtn.addEventListener("click", () => addTodo(text.value));
   text.addEventListener(
     "keydown",
-    (event) => event.key === "Enter" && addTodo(text.value, false)
+    (event) => event.key === "Enter" && addTodo(text.value)
   );
 });
