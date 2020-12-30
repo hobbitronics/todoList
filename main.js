@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "http://jsonplaceholder.typicode.com/todos?_limit=5"
       );
       todos = await response.json();
-      todos.forEach((todo) => renderTodos(todo));
+      todos.forEach(todo => renderTodos(todo))
     } catch (e) {
       console.log("The API may be down: " + e);
     }
@@ -129,25 +129,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const addTodo = (title, completed) => {
-    fetch("http://jsonplaceholder.typicode.com/todos", {
+  const addTodo = async (title, completed) => {
+    const newTodo = {
+      id: Math.floor(Math.random()*1000),
+      title,
+      completed,
+    }
+    const response = await fetch("http://jsonplaceholder.typicode.com/todos/", {
       method: "POST",
-      body: JSON.stringify({
-        userId: 11,
-        title,
-        completed,
-      }),
+      mode : "cors",
+      body: JSON.stringify(newTodo),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((response) => response.json())
-      .then((json) => {
-        renderTodos(json);
-        todos.push(json);
-      });
+    const data = await response.json()
+    todos.push(data);
+    renderTodos(data)
     text.value = "";
-  };
+  }
 
   addBtn.addEventListener("click", () => addTodo(text.value, false));
   text.addEventListener(
