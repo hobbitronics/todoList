@@ -1,33 +1,33 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   let todos = []
-  const addBtn = document.getElementById("add")
-  const text = document.getElementById("text")
-  const container = document.getElementById("container")
-  const delBtn = document.getElementById("del")
+  const addBtn = document.getElementById('add')
+  const text = document.getElementById('text')
+  const container = document.getElementById('container')
+  const delBtn = document.getElementById('del')
 
-  const todoCompleted = (newTodo) => {
-    newTodo.querySelector("#content").style = "text-decoration: line-through"
-    newTodo.id = "checked"
+  const todoCompleted = newTodo => {
+    newTodo.querySelector('#content').style = 'text-decoration: line-through'
+    newTodo.id = 'checked'
     return newTodo
   }
 
-  const todoMarkedIncomlplete = (newTodo) => {
-    newTodo.querySelector("#content").style = ""
-    newTodo.id = ""
+  const todoMarkedIncomlplete = newTodo => {
+    newTodo.querySelector('#content').style = ''
+    newTodo.id = ''
     return newTodo
   }
 
-  const updateTodo = async (todo) => {
+  const updateTodo = async todo => {
     try {
       const response = await fetch(
         `http://jsonplaceholder.typicode.com/todos/${todo.id}`,
         {
-          method: "PUT",
+          method: 'PUT',
           body: JSON.stringify(todo),
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            'Content-type': 'application/json; charset=UTF-8',
           },
-        }
+        },
       )
       const data = await response.json()
       // console.log(data)
@@ -35,25 +35,25 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(
         Error(
           `this is not a real API so the id ${todo.id} doesn't exist on the todo you created. ` +
-            e
-        )
+            e,
+        ),
       )
     }
   }
 
   const watchBox = (box, newTodo) =>
-    box.addEventListener("click", () => {
-      const index = todos.findIndex((todo) => todo.id == box.id)
+    box.addEventListener('click', () => {
+      const index = todos.findIndex(todo => todo.id == box.id)
       if (box.checked === true) {
         newTodo = todoCompleted(newTodo)
         todos[index].completed = true
         console.log(
-          "todos.id:" +
+          'todos.id:' +
             todos[index].id +
-            " boxid: " +
+            ' boxid: ' +
             box.id +
-            " index: " +
-            index
+            ' index: ' +
+            index,
         )
       } else {
         newTodo = todoMarkedIncomlplete(newTodo)
@@ -62,21 +62,21 @@ document.addEventListener("DOMContentLoaded", () => {
       updateTodo(todos[index])
     })
 
-  const renderTodos = (todo) => {
-    let newTodo = document.createElement("li")
-    const todoContent = document.createElement("span")
-    const doneWrapWrap = document.createElement("span")
-    const doneWrap = document.createElement("label")
-    const done = document.createElement("input")
-    newTodo.className = "mdl-list__item"
-    todoContent.className = "mdl-list__item-primary-content"
-    todoContent.id = "content"
-    doneWrapWrap.className = "mdl-list__item-secondary-action"
-    doneWrap.className = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+  const renderTodos = todo => {
+    let newTodo = document.createElement('li')
+    const todoContent = document.createElement('span')
+    const doneWrapWrap = document.createElement('span')
+    const doneWrap = document.createElement('label')
+    const done = document.createElement('input')
+    newTodo.className = 'mdl-list__item'
+    todoContent.className = 'mdl-list__item-primary-content'
+    todoContent.id = 'content'
+    doneWrapWrap.className = 'mdl-list__item-secondary-action'
+    doneWrap.className = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect'
     doneWrap.for = todo.id
-    done.type = "checkbox"
+    done.type = 'checkbox'
     done.id = todo.id
-    done.className = "mdl-checkbox__input"
+    done.className = 'mdl-checkbox__input'
     todoContent.innerText = todo.title
     doneWrap.appendChild(done)
     doneWrapWrap.appendChild(doneWrap)
@@ -100,26 +100,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const getTodos = async () => {
     try {
       const response = await fetch(
-        "http://jsonplaceholder.typicode.com/todos?_limit=5"
+        'http://jsonplaceholder.typicode.com/todos?_limit=5',
       )
       todos = await response.json()
       todos.forEach(todo => renderTodos(todo))
     } catch (e) {
-      console.log("The API may be down: " + e)
+      console.log('The API may be down: ' + e)
     }
   }
 
-  getTodos();
+  getTodos()
 
-  delBtn.addEventListener("click", () => {
-    const checkedBoxes = document.querySelectorAll("#checked");
-    checkedBoxes.forEach((checkedBox) => container.removeChild(checkedBox));
-    todos.forEach((todo) => {
+  delBtn.addEventListener('click', () => {
+    const checkedBoxes = document.querySelectorAll('#checked')
+    checkedBoxes.forEach(checkedBox => container.removeChild(checkedBox))
+    todos.forEach(todo => {
       if (todo.completed === true) {
         try {
           fetch(`http://jsonplaceholder.typicode.com/todos/${todo.id}`, {
-            method: "DELETE",
-          });
+            method: 'DELETE',
+            body: 'todo',
+          })
         } catch (e) {
           console.log(e)
         }
@@ -129,27 +130,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const addTodo = async title => {
     const newTodo = {
-      id: Math.floor(Math.random()*1000),
+      id: Math.floor(Math.random() * 1000),
       title,
-      completed: false
+      completed: false,
     }
-    const response = await fetch("http://jsonplaceholder.typicode.com/todos/", {
-      method: "POST",
-      mode : "cors",
+    const response = await fetch('http://jsonplaceholder.typicode.com/todos/', {
+      method: 'POST',
       body: JSON.stringify(newTodo),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        'Content-type': 'application/json; charset=UTF-8',
       },
     })
     const data = await response.json()
     todos.push(data)
     renderTodos(data)
-    text.value = ""
+    text.value = ''
   }
 
-  addBtn.addEventListener("click", () => addTodo(text.value))
+  addBtn.addEventListener('click', () => addTodo(text.value))
   text.addEventListener(
-    "keydown",
-    (event) => event.key === "Enter" && addTodo(text.value)
+    'keydown',
+    event => event.key === 'Enter' && addTodo(text.value),
   )
 })
